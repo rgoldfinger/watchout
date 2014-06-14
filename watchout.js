@@ -1,7 +1,7 @@
 // start slingin' some d3 here.
 var options = {
-  height: $(window).height(),
-  width: $(window).width(),
+  height: $(window).height() - 100,
+  width: $(window).width() - 100,
   enemies: 43,
   health: 100
 };
@@ -38,6 +38,10 @@ var generateEnemies = function(numberOfEnemies) {
 var drag = d3.behavior.drag().on('drag', function(d) {
   d.x = d3.event.dx + d.x;
   d.y = d3.event.dy + d.y;
+  if (d.x < 30) { d.x = 30; }
+  if (d.y < 30) { d.y = 30; }
+  if (d.x > options.width - 30) { d.x = options.width - 30; }
+  if (d.y > options.height - 30) { d.y = options.height - 30; }
   d3.select(this).attr('transform', 'translate(' + [d.x,d.y] +')');
 });
 
@@ -144,9 +148,11 @@ var healthMeter = board.selectAll('rect')
   .style('opacity', .5);
 
 var increaseHealth = function() {
-  playerHealth += 0.1;
-  healthMeter.data([playerHealth])
-    .attr('width', function(d) {return ((d/103) * options.width);} );
+  if (playerHealth <= 100) {
+    playerHealth += 0.1;
+    healthMeter.data([playerHealth])
+      .attr('width', function(d) {return ((d/103) * options.width);} );
+  }
 };
 
 
