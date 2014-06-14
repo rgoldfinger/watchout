@@ -30,31 +30,37 @@ var generateEnemies = function(numberOfEnemies) {
   }
   return results;
 };
-
-// var player = {
-
-//   stroke: '#000000',
-//   'stroke-width': 2,
-//   points: '18,0 6,16 -13,10 -13,-10 6,-16 18,0',
-//   fill: '#7f7f7f'
-// };
+////------------ d3 event handlers --------
+//-----------------------------------------
+var drag = d3.behavior.drag().on('drag', function(d) {
+  debugger;
+  d.x = d3.event.dx + d.x;
+  d.y = d3.event.dy + d.y;
+  d3.select(this).attr('transform', 'translate(' + [d.x,d.y] +')');
+});
 
 
 //------------ d3 display -----------------
 //-----------------------------------------
+
 
 var board = d3.select('body')
   .append('svg:svg')
   .attr('height', options.height)
   .attr('width', options.width);
 
-board.append('polygon')
+
+//player
+var player = board.append('polygon')
+  .data([{x: options.width / 2, y: options.height / 2}])
   .attr('stroke', '#000000')
   .attr('stroke-width', 2)
   .attr('points', '18,0 6,16 -13,10 -13,-10 6,-16 18,0')
   .attr('fill', '#7f7f7f')
-  .attr('transform', 'translate( '+ options.width / 2 + ',' + options.height / 2 + ')');
+  .attr('transform', 'translate( '+ options.width / 2 + ',' + options.height / 2 + ')')
+  .call(drag);
 
+  //move player on drag
 
 
 var moveEnemies = function() {
