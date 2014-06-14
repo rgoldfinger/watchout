@@ -2,8 +2,11 @@
 var options = {
   height: $(window).height(),
   width: $(window).width(),
-  enemies: 43
+  enemies: 43,
+  health: 100
 };
+
+var playerHealth = options.health;
 
 //enemies
 //id, location(x,y), r, color
@@ -63,16 +66,22 @@ var checkCollision = function(enemy) {
   var radiusSum, separation, xDiff, yDiff;
   var d = player[0][0].__data__;
   radiusSum = parseFloat(enemy.attr('r')) + d.r;
-  // debugger;
   xDiff = parseFloat(enemy.attr('cx')) - d.x;
   yDiff = parseFloat(enemy.attr('cy')) - d.y;
   separation = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
+  // On Collision
   if (separation < radiusSum) {
+    onCollision();
     console.log('BOOM!!!!!');
   }
 };
+
+var onCollision = function() {
+
+};
 //------------ d3 display -----------------
 //-----------------------------------------
+
 
 
 var board = d3.select('body')
@@ -120,6 +129,16 @@ var moveEnemies = function() {
 
   //update and enter with current positions
 };
+
+var healthMeter = board.selectAll('rect')
+  .data([playerHealth]).enter().append('rect')
+  .attr('x', 10)
+  .attr('y', 10)
+  .attr('height', 35)
+  .attr('width', function(d) {return ((d/103) * options.width);} )
+  .attr('fill', 'red')
+  .style('opacity', .5);
+
 
 moveEnemies();
 setInterval(moveEnemies, 1000);
