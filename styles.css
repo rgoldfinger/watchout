@@ -1,5 +1,10 @@
 /* your beautiful css styling goes here! */
 
-/* Note: an asteroid image is included in this repo. 
+/* Note: an asteroid image is included in this repo.
 Feel free to use it if you like. */
 
+.game-over-text {
+  font-size: 60px;
+  font-family: courier;
+  color: #444;
+}

@@ -1,9 +1,9 @@
 // start slingin' some d3 here.
 var options = {
-  height: $(window).height() - 100,
-  width: $(window).width() - 100,
+  height: $(window).height() - 50,
+  width: $(window).width() - 50,
   enemies: 43,
-  health: 100
+  health: 10
 };
 
 var playerHealth = options.health;
@@ -76,16 +76,21 @@ var checkCollision = function(enemy) {
   // On Collision
   if (separation < radiusSum) {
     onCollision();
-    console.log('BOOM!!!!!');
   }
 };
 
 var onCollision = function() {
   playerHealth--;
+  if (playerHealth < 0) { playerHealth = 0; }
+
   healthMeter.data([playerHealth])
     .attr('width', function(d) {
       return d / 103 * options.width;
     });
+
+  if (playerHealth <= 0) {
+    gameOver();
+  }
 
 };
 //------------ d3 display -----------------
@@ -96,7 +101,9 @@ var onCollision = function() {
 var board = d3.select('body')
   .append('svg:svg')
   .attr('height', options.height)
-  .attr('width', options.width);
+  .attr('width', options.width)
+  .style('border', '1px solid #999')
+  .style('border-radius', '5px');
 
 
 //player
@@ -155,10 +162,51 @@ var increaseHealth = function() {
   }
 };
 
+var moveEnemiesInterval;
+var increaseHealthInterval;
 
+var play = function() {
+  moveEnemiesInterval = setInterval(moveEnemies, 1000);
+  increaseHealthInterval = setInterval(increaseHealth, 100);
+};
 moveEnemies();
-setInterval(moveEnemies, 1000);
-setInterval(increaseHealth, 100);
+play();
+
+var gameOver = function() {
+  clearInterval(moveEnemiesInterval);
+  clearInterval(increaseHealthInterval);
+
+
+  var gameOverDisplay = board.append('g');
+
+
+  gameOverDisplay.append('rect')
+    .attr('x', function() {
+      return options.width * 0.3;
+    })
+    .attr('y', function() {
+      return options.height * 0.3;
+    })
+    .attr('width', function() {
+      return options.width * 0.4;
+    })
+    .attr('height', function() {
+      return options.height * 0.3;
+    })
+    .attr('fill', '#EEE')
+    .attr('stroke', '#888')
+    .attr('stroke-width', '2px');
+
+  gameOverDisplay.append('text')
+    .attr('class', 'game-over-text')
+    .attr('x', function() {
+      return ( options.width * 0.3) + 20 ;
+    })
+    .attr('y', function() {
+      return (options.height * 0.5) - 30 ;
+    })
+    .text('Game Over')
+};
 
 
 
