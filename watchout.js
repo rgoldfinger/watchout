@@ -175,37 +175,40 @@ play();
 var gameOver = function() {
   clearInterval(moveEnemiesInterval);
   clearInterval(increaseHealthInterval);
+  $('.game-over').removeClass('hidden');
 
 
-  var gameOverDisplay = board.append('g');
 
 
-  gameOverDisplay.append('rect')
-    .attr('x', function() {
-      return options.width * 0.3;
-    })
-    .attr('y', function() {
-      return options.height * 0.3;
-    })
-    .attr('width', function() {
-      return options.width * 0.4;
-    })
-    .attr('height', function() {
-      return options.height * 0.3;
-    })
-    .attr('fill', '#EEE')
-    .attr('stroke', '#888')
-    .attr('stroke-width', '2px');
+  // var gameOverDisplay = board.append('g');
 
-  gameOverDisplay.append('text')
-    .attr('class', 'game-over-text')
-    .attr('x', function() {
-      return ( options.width * 0.3) + 20 ;
-    })
-    .attr('y', function() {
-      return (options.height * 0.5) - 30 ;
-    })
-    .text('Game Over')
+
+  // gameOverDisplay.append('rect')
+  //   .attr('x', function() {
+  //     return options.width * 0.3;
+  //   })
+  //   .attr('y', function() {
+  //     return options.height * 0.3;
+  //   })
+  //   .attr('width', function() {
+  //     return options.width * 0.4;
+  //   })
+  //   .attr('height', function() {
+  //     return options.height * 0.3;
+  //   })
+  //   .attr('fill', '#EEE')
+  //   .attr('stroke', '#888')
+  //   .attr('stroke-width', '2px');
+
+  // gameOverDisplay.append('text')
+  //   .attr('class', 'game-over-text')
+  //   .attr('x', function() {
+  //     return ( options.width * 0.3) + 20 ;
+  //   })
+  //   .attr('y', function() {
+  //     return (options.height * 0.5) - 30 ;
+  //   })
+  //   .text('Game Over')
 };
 
 
