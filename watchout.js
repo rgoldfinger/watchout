@@ -33,7 +33,6 @@ var generateEnemies = function(numberOfEnemies) {
 ////------------ d3 helper functions--------
 //-----------------------------------------
 var drag = d3.behavior.drag().on('drag', function(d) {
-  debugger;
   d.x = d3.event.dx + d.x;
   d.y = d3.event.dy + d.y;
   d3.select(this).attr('transform', 'translate(' + [d.x,d.y] +')');
@@ -51,13 +50,26 @@ var tweenFactoryFunction = function(newData) {
     y: newData.y
   };
   return function(t) {
-    //collisions??
+    checkCollision(enemy);
     var nextLoc = {
       x: startLoc.x + (endLoc.x - startLoc.x) * t,
       y: startLoc.y + (endLoc.y - startLoc.y) * t
     };
     return enemy.attr('cx', nextLoc.x).attr('cy', nextLoc.y);
   };
+};
+
+var checkCollision = function(enemy) {
+  var radiusSum, separation, xDiff, yDiff;
+  var d = player[0][0].__data__;
+  radiusSum = parseFloat(enemy.attr('r')) + d.r;
+  // debugger;
+  xDiff = parseFloat(enemy.attr('cx')) - d.x;
+  yDiff = parseFloat(enemy.attr('cy')) - d.y;
+  separation = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
+  if (separation < radiusSum) {
+    console.log('BOOM!!!!!');
+  }
 };
 //------------ d3 display -----------------
 //-----------------------------------------
@@ -71,7 +83,7 @@ var board = d3.select('body')
 
 //player
 var player = board.append('polygon')
-  .data([{x: options.width / 2, y: options.height / 2}])
+  .data([{x: options.width / 2, y: options.height / 2, r: 16}])
   .attr('stroke', '#000000')
   .attr('stroke-width', 2)
   .attr('points', '18,0 6,16 -13,10 -13,-10 6,-16 18,0')
@@ -132,6 +144,10 @@ setInterval(moveEnemies, 1000);
         // calculate next position
           // start + (end - start) * t
         // return d3 enemy node positions with next positions
+
+// CHECK COLISION
+// pass in current d3 enemy
+//
 
 
 
