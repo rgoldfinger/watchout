@@ -77,6 +77,11 @@ var checkCollision = function(enemy) {
 };
 
 var onCollision = function() {
+  playerHealth--;
+  healthMeter.data([playerHealth])
+    .attr('width', function(d) {
+      return d / 103 * options.width;
+    });
 
 };
 //------------ d3 display -----------------
@@ -100,13 +105,12 @@ var player = board.append('polygon')
   .attr('transform', 'translate( '+ options.width / 2 + ',' + options.height / 2 + ')')
   .call(drag);
 
-  //move player on drag
-
+var g = board.append('g');
 
 var moveEnemies = function() {
 
   //join our data with the enemies on the board
-  var enemies = board.selectAll('circle')
+  var enemies = g.selectAll('circle')
     .data(generateEnemies(options.enemies), function(d) { return d.i; });
 
 
@@ -139,9 +143,16 @@ var healthMeter = board.selectAll('rect')
   .attr('fill', 'red')
   .style('opacity', .5);
 
+var increaseHealth = function() {
+  playerHealth += 0.1;
+  healthMeter.data([playerHealth])
+    .attr('width', function(d) {return ((d/103) * options.width);} );
+};
+
 
 moveEnemies();
 setInterval(moveEnemies, 1000);
+setInterval(increaseHealth, 100);
 
 
 
@@ -166,7 +177,17 @@ setInterval(moveEnemies, 1000);
 
 // CHECK COLISION
 // pass in current d3 enemy
-//
+
+// TODOS
+// game over
+  // will pop up 'game over' and display score.
+// current 'score' display
+// high score display
+// health meter can change color
+// health increases over time
+// with full health, size, and score multiplier, increases
+// rotating hero
+// more sophisticated characters
 
 
 
