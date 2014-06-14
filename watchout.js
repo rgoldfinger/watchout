@@ -30,7 +30,7 @@ var generateEnemies = function(numberOfEnemies) {
   }
   return results;
 };
-////------------ d3 event handlers --------
+////------------ d3 helper functions--------
 //-----------------------------------------
 var drag = d3.behavior.drag().on('drag', function(d) {
   debugger;
@@ -40,6 +40,25 @@ var drag = d3.behavior.drag().on('drag', function(d) {
 });
 
 
+var tweenFactoryFunction = function(newData) {
+  var enemy = d3.select(this);
+  var startLoc = {
+    x: parseFloat(enemy.attr('cx')),
+    y: parseFloat(enemy.attr('cy'))
+  };
+  var endLoc = {
+    x: newData.x,
+    y: newData.y
+  };
+  return function(t) {
+    //collisions??
+    var nextLoc = {
+      x: startLoc.x + (endLoc.x - startLoc.x) * t,
+      y: startLoc.y + (endLoc.y - startLoc.y) * t
+    };
+    return enemy.attr('cx', nextLoc.x).attr('cy', nextLoc.y);
+  };
+};
 //------------ d3 display -----------------
 //-----------------------------------------
 
@@ -73,9 +92,10 @@ var moveEnemies = function() {
 
   //update existing enemies with transitions for relocation
   enemies.transition().duration(1000)
+    .tween('custom', tweenFactoryFunction);
     // .ease('elastic')
-    .attr('cx', function(d) { return d.x; })
-    .attr('cy', function(d) { return d.y; });
+    // .attr('cx', function(d) { return d.x; })
+    // .attr('cy', function(d) { return d.y; });
 
 
   //enter = create new enemies
@@ -89,10 +109,29 @@ var moveEnemies = function() {
   //update and enter with current positions
 };
 
+moveEnemies();
 setInterval(moveEnemies, 1000);
 
 
 
+// On page load, and again, every 1000 ms, call moveEnemies
+  // selects all circles
+  // binds enemy objects, created with 'generateEnemies' as data
+    // each enemy has:
+      // radius, color, cx, cy;
+  // if d3 nodes bound to data don't yet exist
+    // set d3 node attributes to enemies radius, color, cx and cy
+  // if d3 nodes already existed (i.e. number of enemies still map to data set)
+    // transition d3 nodes x and y over 1000ms new enemy data x and y
+    //  using tween factory function for granular change and collision detection
+      // store the current enemy d3 node
+      // store enemy d3 node position
+      // store incoming data (end) position
+      // return tweeningFunction(t) where t is interpolated time
+        // call checkcollision
+        // calculate next position
+          // start + (end - start) * t
+        // return d3 enemy node positions with next positions
 
 
 
