@@ -178,77 +178,16 @@ var gameOver = function() {
   $('.game-over').removeClass('hidden');
 
 
-
-
-  // var gameOverDisplay = board.append('g');
-
-
-  // gameOverDisplay.append('rect')
-  //   .attr('x', function() {
-  //     return options.width * 0.3;
-  //   })
-  //   .attr('y', function() {
-  //     return options.height * 0.3;
-  //   })
-  //   .attr('width', function() {
-  //     return options.width * 0.4;
-  //   })
-  //   .attr('height', function() {
-  //     return options.height * 0.3;
-  //   })
-  //   .attr('fill', '#EEE')
-  //   .attr('stroke', '#888')
-  //   .attr('stroke-width', '2px');
-
-  // gameOverDisplay.append('text')
-  //   .attr('class', 'game-over-text')
-  //   .attr('x', function() {
-  //     return ( options.width * 0.3) + 20 ;
-  //   })
-  //   .attr('y', function() {
-  //     return (options.height * 0.5) - 30 ;
-  //   })
-  //   .text('Game Over')
 };
 
-
-
-// On page load, and again, every 1000 ms, call moveEnemies
-  // selects all circles
-  // binds enemy objects, created with 'generateEnemies' as data
-    // each enemy has:
-      // radius, color, cx, cy;
-  // if d3 nodes bound to data don't yet exist
-    // set d3 node attributes to enemies radius, color, cx and cy
-  // if d3 nodes already existed (i.e. number of enemies still map to data set)
-    // transition d3 nodes x and y over 1000ms new enemy data x and y
-    //  using tween factory function for granular change and collision detection
-      // store the current enemy d3 node
-      // store enemy d3 node position
-      // store incoming data (end) position
-      // return tweeningFunction(t) where t is interpolated time
-        // call checkcollision
-        // calculate next position
-          // start + (end - start) * t
-        // return d3 enemy node positions with next positions
-
-// CHECK COLISION
-// pass in current d3 enemy
-
-// TODOS
-// game over
-  // will pop up 'game over' and display score.
-// current 'score' display
-// high score display
-// health meter can change color
-// health increases over time
-// with full health, size, and score multiplier, increases
-// rotating hero
-// more sophisticated characters
-
-
-
-
+$('.restart-game').on('click', function(e) {
+  e.preventDefault();
+  $('.game-over').addClass('hidden');
+  playerHealth = options.health;
+  g.selectAll('circle').data([]).exit().remove();
+  moveEnemies();
+  play();
+})
 
 
 
