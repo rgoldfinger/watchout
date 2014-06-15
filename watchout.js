@@ -3,10 +3,11 @@ var options = {
   height: $(window).height() - 50,
   width: $(window).width() - 50,
   enemies: 43,
-  health: 10
+  health: 30
 };
 
 var playerHealth = options.health;
+var score = 0;
 
 //enemies
 //id, location(x,y), r, color
@@ -154,12 +155,21 @@ var healthMeter = board.selectAll('rect')
   .attr('fill', 'red')
   .style('opacity', .5);
 
+
+
+
+
 var increaseHealth = function() {
   if (playerHealth <= 100) {
     playerHealth += 0.1;
     healthMeter.data([playerHealth])
       .attr('width', function(d) {return ((d/103) * options.width);} );
   }
+  score++;
+  $('.score').text(score);
+
+
+
 };
 
 var moveEnemiesInterval;
@@ -176,6 +186,7 @@ var gameOver = function() {
   clearInterval(moveEnemiesInterval);
   clearInterval(increaseHealthInterval);
   $('.game-over').removeClass('hidden');
+  score = 0;
 
 
 };
@@ -187,20 +198,11 @@ $('.restart-game').on('click', function(e) {
   g.selectAll('circle').data([]).exit().remove();
   moveEnemies();
   play();
-})
 
-
-
-
-
-
-
-
-
-
-
-
-
+  player
+    .data([{x: options.width / 2, y: options.height / 2, r: 16}])
+    .attr('transform', 'translate( '+ options.width / 2 + ',' + options.height / 2 + ')');
+});
 
 
 

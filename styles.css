@@ -10,7 +10,7 @@ Feel free to use it if you like. */
 }
 
 .game-over {
-  height: 30%;
+  height: 20%;
   width: 30%;
   background-color: #eee;
   border: 2px solid #888;
@@ -25,4 +25,18 @@ Feel free to use it if you like. */
 
 .hidden {
   display: none;
+}
+
+.score {
+  height: 40px;
+  width: 40px;
+  background-color: #eee;
+  border: 2px solid #888;
+  font-family: courier;
+  font-size: 20px;
+  line-height: 50px;
+  text-align: center;
+  position: absolute;
+  top: 83%;
+  left: 94%;
 }
